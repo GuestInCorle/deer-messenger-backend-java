@@ -16,29 +16,30 @@ public class MessengerImpl extends MessengerGrpc.MessengerImplBase {
         String tempdeer = request.getDeer().getName();
         boolean isfound = false;
         for (DeerMessengerBackend.Deer der : deerBase){
-            if(der.getName().equalsIgnoreCase(tempdeer)){
+            if(der.getName().equals(tempdeer)){
                 isfound = true;
                 DeerMessengerBackend.LoginDeerResponse response = DeerMessengerBackend.LoginDeerResponse.newBuilder()
                         .setDeer(der)
                         .build();
 
                 responseObserver.onNext(response);
+                responseObserver.onCompleted();
+                return;
             }
         }
-        if(!isfound){
-            idDeer++;
+        idDeer++;
 
-            DeerMessengerBackend.Deer der = DeerMessengerBackend.Deer.newBuilder()
-                    .setId(idDeer)
-                    .setName(tempdeer)
-                    .build();
-            deerBase.add(der);
-            DeerMessengerBackend.LoginDeerResponse response = DeerMessengerBackend.LoginDeerResponse.newBuilder()
-                    .setDeer(der)
-                    .build();
+        DeerMessengerBackend.Deer der = DeerMessengerBackend.Deer.newBuilder()
+                .setId(idDeer)
+                .setName(tempdeer)
+                .build();
+        deerBase.add(der);
+        DeerMessengerBackend.LoginDeerResponse response = DeerMessengerBackend.LoginDeerResponse.newBuilder()
+                .setDeer(der)
+                .build();
 
-            responseObserver.onNext(response);
-        }
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     @Override
