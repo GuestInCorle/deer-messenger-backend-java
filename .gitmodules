@@ -1,0 +1,3 @@
+[submodule "src/main/proto/deer_messenger_backend"]
+	path = src/main/proto/deer_messenger_backend
+	url = https://github.com/GuestInCorle/deer-messenger-backend.git
